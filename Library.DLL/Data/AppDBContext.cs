@@ -10,5 +10,9 @@ namespace Library.DLL.Data
 
         public DbSet<Book> Book { get; set; }
         public DbSet<Author> Author { get; set; }
-     }
+        public DbSet<BookOrder> BookOrder { get; set; }
+        public DbSet<Client> Client { get; set; }
+        public DbSet<Employee> Employee { get; set; }
+        public DbSet<Order> Order { get; set; }
+    }
 }
