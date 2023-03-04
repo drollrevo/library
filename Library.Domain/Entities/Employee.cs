@@ -8,7 +8,10 @@ namespace Library.Domain.Entities
         public DateTime BirthDate { get; set; }
         public string Position { get; set; }
         public int Salary { get; set; }
-        public string Address { get; set; }
+        public int AddressId { get; set; }
         public string Phone { get; set; }
+        public List<Order> Order { get; set; }
+        public Address Address { get; set; }
+
     }
 }

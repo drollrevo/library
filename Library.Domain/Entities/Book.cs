@@ -10,5 +10,7 @@ namespace Library.Domain.Entities
         public DateTime PublishingDate { get; set; }
         public int AuthorId { get; set; }
         public Author Author { get; set; }
+        public int BookOrderId { get; set; }
+        public BookOrder BookOrder { get; set; }
     }
 }
