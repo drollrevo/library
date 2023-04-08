@@ -6,7 +6,10 @@ namespace Library.DLL.Data
      public class AppDBContext : DbContext
      {
          public AppDBContext(DbContextOptions<AppDBContext> options)
-             : base(options) { }
+             : base(options) 
+        {
+            Database.EnsureCreated();
+        }
 
         public DbSet<Book> Book { get; set; }
         public DbSet<Author> Author { get; set; }
