@@ -1,12 +1,12 @@
 ﻿
 namespace Library.DLL.Interfaces
 {
-    internal interface IRepository<Entity> where Entity : class
+    public interface IRepository<Entity> where Entity : class
     {
-        public Task<Entity> Create(Entity entity);
-        public Task<Entity> Remove(int id);
-        public Task<Entity> Update(Entity entity);
-        public Task<IEnumerable<Entity>> Get();
-        public Task<Entity> Get(int id);
+        public Task<Entity> CreateAsync(Entity entity);
+        public Task<Entity> DeleteAsync(int id);
+        public Task<Entity> UpdateAsync(Entity entity);
+        public Task<IEnumerable<Entity>> GetAsync();
+        public Task<Entity> GetAsync(int id);
     }
 }

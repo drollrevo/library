@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Library.BLL.interfaces
+namespace Library.DLL.Interfaces
 {
-    internal class AddressServices
+    internal class IAuthorRepository
     {
     }
 }

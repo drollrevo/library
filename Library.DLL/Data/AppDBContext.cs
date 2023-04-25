@@ -17,5 +17,6 @@ namespace Library.DLL.Data
         public DbSet<Client> Client { get; set; }
         public DbSet<Employee> Employee { get; set; }
         public DbSet<Order> Order { get; set; }
+        public object Address { get; internal set; }
     }
 }
