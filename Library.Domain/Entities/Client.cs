@@ -11,7 +11,7 @@ namespace Library.Domain.Entities
         public int AddressId { get; set; }
         public string Phone { get; set; }
         public List<Order> Order { get; set; }
-        public Address Address { get; set; }
+        public List<Address> Address { get; set; } = new List<Address>();
 
     }
 }

@@ -14,7 +14,7 @@ namespace Library.DLL.Repositories
         {
             _db = db;
         }
-        public async Task<Order> Create(Order entity)
+        public async Task<Order> CreateAsync(Order entity)
         {
             try
             {
@@ -28,25 +28,18 @@ namespace Library.DLL.Repositories
             }
         }
 
-        public Task<Order> CreateAsync(Order entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Order> DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Order> Get(int id)
+        public async Task<Order> DeleteAsync(int id)
         {
             try
             {
-                return await _db.Order
-                    .AsNoTracking()
-                    .Include(x => x.Id)
-                    .Include(x => x.DateOfIssue)
-                    .FirstOrDefaultAsync(x => x.Id == id);
+                var book = await _db.Order.FindAsync(id);
+
+                if (book == null)
+                    throw new Exception();
+
+                _db.Order.Remove(book);
+                await _db.SaveChangesAsync();
+                return book;
             }
             catch (Exception ex)
             {
@@ -54,7 +47,7 @@ namespace Library.DLL.Repositories
             }
         }
 
-        public async Task<IEnumerable<Order>> Get()
+        public async Task<IEnumerable<Order>> GetAsync()
         {
             try
             {
@@ -68,27 +61,15 @@ namespace Library.DLL.Repositories
             }
         }
 
-        public Task<IEnumerable<Order>> GetAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Order> GetAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Order> Remove(int Id)
+        public async Task<Order> GetAsync(int id)
         {
             try
             {
-                var order = await _db.Order.FindAsync(Id);
-
-                if (order == null)
-                    throw new Exception();
-                _db.Order.Remove(order);
-                await _db.SaveChangesAsync();
-                return order;
+                return await _db.Order
+                    .AsNoTracking()
+                    .Include(x => x.Employee)
+                    .Include(x => x.Client)
+                    .FirstOrDefaultAsync(x => x.Id == id);
             }
             catch (Exception ex)
             {
@@ -96,24 +77,19 @@ namespace Library.DLL.Repositories
             }
         }
 
-        public async Task<Order> Update(Order entity)
+        public async Task<Order> UpdateAsync(Order entity)
         {
             try
             {
-                var order = _db.Entry<Order>(entity);
-                order.State = EntityState.Modified;
+                var book = _db.Entry<Order>(entity);
+                book.State = EntityState.Modified;
                 await _db.SaveChangesAsync();
-                return order.Entity;
+                return book.Entity;
             }
             catch
             {
                 throw new Exception();
             }
-        }
-
-        public Task<Order> UpdateAsync(Order entity)
-        {
-            throw new NotImplementedException();
         }
     }
 }

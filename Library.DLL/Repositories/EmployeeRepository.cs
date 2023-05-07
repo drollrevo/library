@@ -15,13 +15,7 @@ namespace Library.DLL.Repositories
         {
             _db = db;
         }
-
-        public Task<Employee> AddressEmployeeAsync(Employee employee, Address address)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Employee> Create(Employee entity)
+        public async Task<Employee> CreateAsync(Employee entity)
         {
             try
             {
@@ -35,25 +29,18 @@ namespace Library.DLL.Repositories
             }
         }
 
-        public Task<Employee> CreateAsync(Employee entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Employee> DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Employee> Get(int id)
+        public async Task<Employee> DeleteAsync(int id)
         {
             try
             {
-                return await _db.Employee
-                    .AsNoTracking()
-                    .Include(x => x.FullName)
-                    .Include(x => x.Salary)
-                    .FirstOrDefaultAsync(x => x.Id == id);
+                var book = await _db.Employee.FindAsync(id);
+
+                if (book == null)
+                    throw new Exception();
+
+                _db.Employee.Remove(book);
+                await _db.SaveChangesAsync();
+                return book;
             }
             catch (Exception ex)
             {
@@ -61,7 +48,7 @@ namespace Library.DLL.Repositories
             }
         }
 
-        public async Task<IEnumerable<Employee>> Get()
+        public async Task<IEnumerable<Employee>> GetAsync()
         {
             try
             {
@@ -75,27 +62,14 @@ namespace Library.DLL.Repositories
             }
         }
 
-        public Task<IEnumerable<Employee>> GetAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Employee> GetAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Employee> Remove(int Id)
+        public async Task<Employee> GetAsync(int id)
         {
             try
             {
-                var employee = await _db.Employee.FindAsync(Id);
-
-                if (employee == null)
-                    throw new Exception();
-                _db.Employee.Remove(employee);
-                await _db.SaveChangesAsync();
-                return employee;
+                return await _db.Employee
+                    .AsNoTracking()
+                    .Include(x => x.Order)
+                    .FirstOrDefaultAsync(x => x.Id == id);
             }
             catch (Exception ex)
             {
@@ -103,24 +77,19 @@ namespace Library.DLL.Repositories
             }
         }
 
-        public async Task<Employee> Update(Employee entity)
+        public async Task<Employee> UpdateAsync(Employee entity)
         {
             try
             {
-                var employee = _db.Entry<Employee>(entity);
-                employee.State = EntityState.Modified;
+                var book = _db.Entry<Employee>(entity);
+                book.State = EntityState.Modified;
                 await _db.SaveChangesAsync();
-                return employee.Entity;
+                return book.Entity;
             }
             catch
             {
                 throw new Exception();
             }
-        }
-
-        public Task<Employee> UpdateAsync(Employee entity)
-        {
-            throw new NotImplementedException();
         }
     }
 }

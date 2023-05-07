@@ -2,11 +2,7 @@
 using Library.DLL.Interfaces;
 using Library.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Library.DLL.Repositories
 {
@@ -18,11 +14,11 @@ namespace Library.DLL.Repositories
         {
             _db = db;
         }
-        public async Task<Employee> Create(Employee entity)
+        public async Task<Book> CreateAsync(Book entity)
         {
             try
             {
-                await _db.Employee.AddAsync(entity);
+                await _db.Book.AddAsync(entity);
                 await _db.SaveChangesAsync();
                 return entity;
             }
@@ -32,25 +28,18 @@ namespace Library.DLL.Repositories
             }
         }
 
-        public Task<Book> CreateAsync(Book entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Book> DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Employee> Get(int id)
+        public async Task<Book> DeleteAsync(int id)
         {
             try
             {
-                return await _db.Employee
-                    .AsNoTracking()
-                    .Include(x => x.FullName)
-                    .Include(x => x.Salary)
-                    .FirstOrDefaultAsync(x => x.Id == id);
+                var book = await _db.Book.FindAsync(id);
+
+                if (book == null)
+                    throw new Exception();
+
+                _db.Book.Remove(book);
+                await _db.SaveChangesAsync();
+                return book;
             }
             catch (Exception ex)
             {
@@ -58,11 +47,11 @@ namespace Library.DLL.Repositories
             }
         }
 
-        public async Task<IEnumerable<Employee>> Get()
+        public async Task<IEnumerable<Book>> GetAsync()
         {
             try
             {
-                return await _db.Employee
+                return await _db.Book
                     .AsNoTracking()
                     .ToListAsync();
             }
@@ -72,27 +61,15 @@ namespace Library.DLL.Repositories
             }
         }
 
-        public Task<IEnumerable<Book>> GetAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Book> GetAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Employee> Remove(int Id)
+        public async Task<Book> GetAsync(int id)
         {
             try
             {
-                var employee = await _db.Employee.FindAsync(Id);
-
-                if (employee == null)
-                    throw new Exception();
-                _db.Employee.Remove(employee);
-                await _db.SaveChangesAsync();
-                return employee;
+                return await _db.Book
+                    .AsNoTracking()
+                    .Include(x => x.BookOrder)
+                    .Include(x => x.Author)
+                    .FirstOrDefaultAsync(x => x.Id == id);
             }
             catch (Exception ex)
             {
@@ -100,24 +77,19 @@ namespace Library.DLL.Repositories
             }
         }
 
-        public async Task<Employee> Update(Employee entity)
+        public async Task<Book> UpdateAsync(Book entity)
         {
             try
             {
-                var employee = _db.Entry<Employee>(entity);
-                employee.State = EntityState.Modified;
+                var book = _db.Entry<Book>(entity);
+                book.State = EntityState.Modified;
                 await _db.SaveChangesAsync();
-                return employee.Entity;
+                return book.Entity;
             }
             catch
             {
                 throw new Exception();
             }
-        }
-
-        public Task<Book> UpdateAsync(Book entity)
-        {
-            throw new NotImplementedException();
         }
     }
 }

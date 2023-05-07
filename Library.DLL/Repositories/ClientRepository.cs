@@ -2,11 +2,7 @@
 using Library.DLL.Interfaces;
 using Library.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Library.DLL.Repositories
 {
@@ -19,16 +15,27 @@ namespace Library.DLL.Repositories
             _db = db;
         }
 
-        public Task<Client> AddressClientAsync(Client client, Address address)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Employee> Create(Employee entity)
+        public async Task<Client> AddressClientAsync(Client client, Address address)
         {
             try
             {
-                await _db.Employee.AddAsync(entity);
+                var clientState = _db.Entry<Client>(client);
+                clientState.State = EntityState.Modified;
+                clientState.Entity.Address.Add(address);
+                await _db.SaveChangesAsync();
+                return clientState.Entity;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<Client> CreateAsync(Client entity)
+        {
+            try
+            {
+                await _db.Client.AddAsync(entity);
                 await _db.SaveChangesAsync();
                 return entity;
             }
@@ -38,25 +45,18 @@ namespace Library.DLL.Repositories
             }
         }
 
-        public Task<Client> CreateAsync(Client entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Client> DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Employee> Get(int id)
+        public async Task<Client> DeleteAsync(int id)
         {
             try
             {
-                return await _db.Employee
-                    .AsNoTracking()
-                    .Include(x => x.FullName)
-                    .Include(x => x.Salary)
-                    .FirstOrDefaultAsync(x => x.Id == id);
+                var client = await _db.Client.FindAsync(id);
+
+                if (client == null)
+                    throw new Exception();
+
+                _db.Client.Remove(client);
+                await _db.SaveChangesAsync();
+                return client;
             }
             catch (Exception ex)
             {
@@ -64,11 +64,11 @@ namespace Library.DLL.Repositories
             }
         }
 
-        public async Task<IEnumerable<Employee>> Get()
+        public async Task<IEnumerable<Client>> GetAsync()
         {
             try
             {
-                return await _db.Employee
+                return await _db.Client
                     .AsNoTracking()
                     .ToListAsync();
             }
@@ -78,27 +78,15 @@ namespace Library.DLL.Repositories
             }
         }
 
-        public Task<IEnumerable<Client>> GetAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Client> GetAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Employee> Remove(int Id)
+        public async Task<Client> GetAsync(int id)
         {
             try
             {
-                var employee = await _db.Employee.FindAsync(Id);
-
-                if (employee == null)
-                    throw new Exception();
-                _db.Employee.Remove(employee);
-                await _db.SaveChangesAsync();
-                return employee;
+                return await _db.Client
+                    .AsNoTracking()
+                    .Include(x => x.Order)
+                    .Include(x => x.Address)
+                    .FirstOrDefaultAsync(x => x.Id == id);
             }
             catch (Exception ex)
             {
@@ -106,24 +94,19 @@ namespace Library.DLL.Repositories
             }
         }
 
-        public async Task<Employee> Update(Employee entity)
+        public async Task<Client> UpdateAsync(Client entity)
         {
             try
             {
-                var employee = _db.Entry<Employee>(entity);
-                employee.State = EntityState.Modified;
+                var client = _db.Entry<Client>(entity);
+                client.State = EntityState.Modified;
                 await _db.SaveChangesAsync();
-                return employee.Entity;
+                return client.Entity;
             }
             catch
             {
                 throw new Exception();
             }
-        }
-
-        public Task<Client> UpdateAsync(Client entity)
-        {
-            throw new NotImplementedException();
         }
     }
 }

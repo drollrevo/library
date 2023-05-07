@@ -4,6 +4,7 @@ using Library.DLL.Data;
 using Library.DLL.Interfaces;
 using Library.Domain.Entities;
 
+
 namespace Library.DLL.Repositories
 {
     public class AddressRepository : IAddressRepository
@@ -15,44 +16,97 @@ namespace Library.DLL.Repositories
             _db = db;
         }
 
-        public Task<Address> AddToClientAsync(Address address, Client client)
+        public async Task<Address> AddToClientAsync(Address address, Client client)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var addressUpdate = _db.Entry<Address>(address);
+                addressUpdate.State = EntityState.Modified;
+                addressUpdate.Entity.Client.Add(client);
+                await _db.SaveChangesAsync();
+                return addressUpdate.Entity;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        public Task<Address> AddToEmployeeAsync(Address address, Employee employee)
+        public async Task<Address> CreateAsync(Address entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _db.Address.AddAsync(entity);
+                await _db.SaveChangesAsync();
+                return entity;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        public Task<Address> CreateAsync(Address entity)
+        public async Task<Address> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var address = await _db.Address.FindAsync(id);
+
+                if (address == null)
+                    throw new Exception();
+
+                _db.Address.Remove(address);
+                await _db.SaveChangesAsync();
+                return address;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        public Task<Address> DeleteAsync(int id)
+        public async Task<IEnumerable<Address>> GetAsync()
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Address>> GetAsync()
-        {
-            throw new NotImplementedException();
+            try
+            {
+                return await _db.Address
+                    .AsNoTracking()
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<Address> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _db.Address 
+                    .Include(x => x.Client)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.Id == id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        public Task<Address> RemoveFromClientAsync(Address address, List<int> persinsId)
+        public async Task<Address> RemoveFromClientAsync(Address address, List<int> clientsId)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Address> RemoveFromEmployeeAsync(Address address, List<int> persinsId)
-        {
-            throw new NotImplementedException();
+            try
+            {
+                var addressState = await _db.Address.Include(x => x.Client).FirstOrDefaultAsync(x => x.Id == address.Id);
+                addressState.Client.RemoveAll(x => clientsId.Contains(x.Id));
+                await _db.SaveChangesAsync();
+                return addressState;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<Address> UpdateAsync(Address entity)
