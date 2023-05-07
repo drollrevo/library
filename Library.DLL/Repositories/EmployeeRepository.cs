@@ -7,14 +7,20 @@ using System;
 
 namespace Library.DLL.Repositories
 {
-    public class EmployeeRepository : IRepository<Employee>
+    public class EmployeeRepository : IEmployeeRepository
     {
         private readonly AppDBContext _db;
 
-        public EmployeeRepository(AppDBContext db) 
+        public EmployeeRepository(AppDBContext db)
         {
             _db = db;
         }
+
+        public Task<Employee> AddressEmployeeAsync(Employee employee, Address address)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Employee> Create(Employee entity)
         {
             try
@@ -27,6 +33,16 @@ namespace Library.DLL.Repositories
             {
                 throw ex;
             }
+        }
+
+        public Task<Employee> CreateAsync(Employee entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Employee> DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<Employee> Get(int id)
@@ -53,17 +69,27 @@ namespace Library.DLL.Repositories
                     .AsNoTracking()
                     .ToListAsync();
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 throw ex;
             }
+        }
+
+        public Task<IEnumerable<Employee>> GetAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Employee> GetAsync(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<Employee> Remove(int Id)
         {
             try
             {
-                var employee  = await _db.Employee.FindAsync(Id);
+                var employee = await _db.Employee.FindAsync(Id);
 
                 if (employee == null)
                     throw new Exception();
@@ -71,7 +97,7 @@ namespace Library.DLL.Repositories
                 await _db.SaveChangesAsync();
                 return employee;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -92,5 +118,9 @@ namespace Library.DLL.Repositories
             }
         }
 
+        public Task<Employee> UpdateAsync(Employee entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

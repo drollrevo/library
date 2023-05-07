@@ -6,7 +6,7 @@ namespace Library.DLL.Interfaces
     {
         public Task<Address> AddToEmployeeAsync(Address address, Employee employee);
         public Task<Address> RemoveFromEmployeeAsync(Address address, List<int> persinsId);
-        public Task<Address> AddEmployeeRangeAsync(Address address, List<int> persinsId);
-        public Task<Address> CreateWithEmployeeAsync(Address address);
+        public Task<Address> AddToClientAsync(Address address, Client client);
+        public Task<Address> RemoveFromClientAsync(Address address, List<int> persinsId);
     }
 }

@@ -14,10 +14,16 @@ namespace Library.DLL.Repositories
     {
         private readonly AppDBContext _db;
 
-        public EmployeeRepository(AppDBContext db)
+        public ClientRepository(AppDBContext db)
         {
             _db = db;
         }
+
+        public Task<Client> AddressClientAsync(Client client, Address address)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Employee> Create(Employee entity)
         {
             try
@@ -30,6 +36,16 @@ namespace Library.DLL.Repositories
             {
                 throw ex;
             }
+        }
+
+        public Task<Client> CreateAsync(Client entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Client> DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<Employee> Get(int id)
@@ -60,6 +76,16 @@ namespace Library.DLL.Repositories
             {
                 throw ex;
             }
+        }
+
+        public Task<IEnumerable<Client>> GetAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Client> GetAsync(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<Employee> Remove(int Id)
@@ -93,6 +119,11 @@ namespace Library.DLL.Repositories
             {
                 throw new Exception();
             }
+        }
+
+        public Task<Client> UpdateAsync(Client entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -11,13 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddScoped<IRepository<Address>, AddressRepository>();
-builder.Services.AddScoped<IRepository<Author>, AuthorRepository>();
-builder.Services.AddScoped<IRepository<Book>, BookRepository>();
-builder.Services.AddScoped<IRepository<Client>, ClientRepository>();
-builder.Services.AddScoped<IRepository<BookOrder>, BookOrderRepository>();
-builder.Services.AddScoped<IRepository<Employee>, EmployeeRepository>();
-builder.Services.AddScoped<IRepository<Order>, OrderRepository>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<IBookOrderRepository, BookOrderRepository>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

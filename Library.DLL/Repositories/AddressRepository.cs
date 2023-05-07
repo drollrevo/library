@@ -4,8 +4,6 @@ using Library.DLL.Data;
 using Library.DLL.Interfaces;
 using Library.Domain.Entities;
 
-
-
 namespace Library.DLL.Repositories
 {
     public class AddressRepository : IAddressRepository
@@ -17,113 +15,44 @@ namespace Library.DLL.Repositories
             _db = db;
         }
 
-        public async Task<Address> AddToPersonAsync(Address address, Employee employee)
+        public Task<Address> AddToClientAsync(Address address, Client client)
         {
-            try
-            {
-                var addressUpdate = _db.Entry<Address>(address);
-                addressUpdate.State = EntityState.Modified;
-                addressUpdate.Entity.Employee.Add(employee);
-                await _db.SaveChangesAsync();
-                return addressUpdate.Entity;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            throw new NotImplementedException();
         }
 
-        public async Task<Address> RemoveFromPersonAsync(Address address, List<int> personsId)
+        public Task<Address> AddToEmployeeAsync(Address address, Employee employee)
         {
-            try
-            {
-                var addressState = await _db.Address.Include(x => x.Person).FirstOrDefaultAsync(x => x.Id == address.Id);
-                addressState.Person.RemoveAll(x => personsId.Contains(x.Id));
-                await _db.SaveChangesAsync();
-                return addressState;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            throw new NotImplementedException();
         }
 
-        public async Task<Address> CreateAsync(Address entity)
+        public Task<Address> CreateAsync(Address entity)
         {
-            try
-            {
-                await _db.Address.AddAsync(entity);
-                await _db.SaveChangesAsync();
-                return entity;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            throw new NotImplementedException();
         }
 
-        public async Task<Address> CreateWithPersonsAsync(Address address)
+        public Task<Address> DeleteAsync(int id)
         {
-            try
-            {
-                _db.Person.AddRange(address.Person);
-                address.Person = address.Person;
-                await _db.Address.AddAsync(address);
-                await _db.SaveChangesAsync();
-                return address;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            throw new NotImplementedException();
         }
 
-        public async Task<Address> DeleteAsync(int id)
+        public Task<IEnumerable<Address>> GetAsync()
         {
-            try
-            {
-                var address = await _db.Address.FindAsync(id);
-
-                if (address == null)
-                    throw new Exception();
-
-                _db.Address.Remove(address);
-                await _db.SaveChangesAsync();
-                return address;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public async Task<IEnumerable<Address>> GetAsync()
-        {
-            try
-            {
-                return await _db.Address
-                    .AsNoTracking()
-                    .ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            throw new NotImplementedException();
         }
 
         public async Task<Address> GetAsync(int id)
         {
-            try
-            {
-                return await _db.Address
-                    .AsNoTracking()
-                    .Include(x => x.Person)
-                    .FirstOrDefaultAsync(x => x.Id == id);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            throw new NotImplementedException();
+        }
+
+        public Task<Address> RemoveFromClientAsync(Address address, List<int> persinsId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Address> RemoveFromEmployeeAsync(Address address, List<int> persinsId)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<Address> UpdateAsync(Address entity)
@@ -135,22 +64,6 @@ namespace Library.DLL.Repositories
 
                 await _db.SaveChangesAsync();
                 return entity;
-            }
-            catch
-            {
-                throw new Exception();
-            }
-        }
-
-        public async Task<Address> AddPersonsRangeAsync(Address address, List<int> persinsId)
-        {
-            try
-            {
-                var addressState = _db.Entry<Address>(address);
-                addressState.State = EntityState.Modified;
-                addressState.Entity.Person.AddRange(_db.Person.AsNoTracking().Where(x => persinsId.Contains(x.Id)));
-                await _db.SaveChangesAsync();
-                return addressState.Entity;
             }
             catch
             {

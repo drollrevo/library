@@ -28,6 +28,16 @@ namespace Library.DLL.Repositories
             }
         }
 
+        public Task<Order> CreateAsync(Order entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Order> DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Order> Get(int id)
         {
             try
@@ -56,6 +66,16 @@ namespace Library.DLL.Repositories
             {
                 throw ex;
             }
+        }
+
+        public Task<IEnumerable<Order>> GetAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Order> GetAsync(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<Order> Remove(int Id)
@@ -89,6 +109,11 @@ namespace Library.DLL.Repositories
             {
                 throw new Exception();
             }
+        }
+
+        public Task<Order> UpdateAsync(Order entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

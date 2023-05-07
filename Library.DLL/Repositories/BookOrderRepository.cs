@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Library.DLL.Repositories
 {
-    public class BookOrderRepository : IRepository<Order>
+    public class BookOrderRepository : IBookOrderRepository
     {
         private readonly AppDBContext _db;
 
-        public EmployeeRepository(AppDBContext db)
+        public BookOrderRepository(AppDBContext db)
         {
             _db = db;
         }
@@ -30,6 +30,16 @@ namespace Library.DLL.Repositories
             {
                 throw ex;
             }
+        }
+
+        public Task<BookOrder> CreateAsync(BookOrder entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<BookOrder> DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<Employee> Get(int id)
@@ -60,6 +70,16 @@ namespace Library.DLL.Repositories
             {
                 throw ex;
             }
+        }
+
+        public Task<IEnumerable<BookOrder>> GetAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<BookOrder> GetAsync(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<Employee> Remove(int Id)
@@ -93,6 +113,11 @@ namespace Library.DLL.Repositories
             {
                 throw new Exception();
             }
+        }
+
+        public Task<BookOrder> UpdateAsync(BookOrder entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

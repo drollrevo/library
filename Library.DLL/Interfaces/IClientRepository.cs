@@ -1,13 +1,9 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Library.Domain.Entities;
 
 namespace Library.DLL.Interfaces
 {
-    internal class IClientRepository
+    public interface IClientRepository : IRepository<Client>
     {
+        public Task<Client> AddressClientAsync(Client client, Address address);
     }
 }

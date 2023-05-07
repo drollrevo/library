@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Library.Domain.Entities;
+using System;
 
 namespace Library.DLL.Interfaces
 {
-    internal class IAuthorRepository
+    public interface IAuthorRepository : IRepository<Author>
     {
     }
 }
