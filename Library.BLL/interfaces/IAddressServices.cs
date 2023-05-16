@@ -9,7 +9,6 @@ namespace Library.BLL.interfaces
         public Task<AddressDto> UpdateAsync(AddressDto entity);
         public Task<IEnumerable<AddressDto>> GetAsync();
         public Task<AddressDto> GetAsync(int id);
-        public Task<AddressDto> AddToClientAsync(AddressDto address, ClientDto client);
         public Task<AddressDto> RemoveFromClientAsync(AddressDto address, List<int> clientsId);
     }
 }
