@@ -4,13 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Library.DLL.Interfaces;
 using Library.DLL.Repositories;
+using Library.BLL.interfaces;
+using Library.BLL.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-//BLL
+//DLL
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
@@ -19,14 +21,14 @@ builder.Services.AddScoped<IBookOrderRepository, BookOrderRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
-//DLL
-builder.Services.AddTransient<IAddressRepository, AddressRepository>();
-builder.Services.AddTransient<IAuthorRepository, AuthorRepository>();
-builder.Services.AddTransient<IBookRepository, BookRepository>();
-builder.Services.AddTransient<IClientRepository, ClientRepository>();
-builder.Services.AddTransient<IBookOrderRepository, BookOrderRepository>();
-builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
-builder.Services.AddTransient<IOrderRepository, OrderRepository>();
+//BLL
+builder.Services.AddTransient<IAddressServices, AddressServices>();
+builder.Services.AddTransient<IAuthorServices, AuthorServices>();
+builder.Services.AddTransient<IBookServices, BookServices>();
+builder.Services.AddTransient<IClientServices, ClientServices>();
+builder.Services.AddTransient<IBookOrderServices, BookOrderServices>();
+builder.Services.AddTransient<IEmployeeServices, EmployeeServices>();
+builder.Services.AddTransient<IOrderServices, OrderServices>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

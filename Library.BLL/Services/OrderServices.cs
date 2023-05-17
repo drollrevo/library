@@ -7,14 +7,10 @@ namespace Library.BLL.Services
 {
     public class OrderServices : IOrderServices
     {
-        private readonly IClientRepository _repository;
-        private readonly IOrderRepository _orderRepository;
-        private readonly IEmployeeRepository _employeeRepository;
-        public OrderServices(IClientRepository repository, IOrderRepository orderRepository, IEmployeeRepository employeeRepository)
+        private readonly IOrderRepository _repository;
+        public OrderServices(IOrderRepository repository)
         {
             _repository = repository;
-            _orderRepository = orderRepository;
-            _employeeRepository = employeeRepository;
         }
         public async Task<OrderDto> CreateAsync(OrderDto entity)
         {
@@ -70,28 +66,6 @@ namespace Library.BLL.Services
                 DateOfIssue = result.DateOfIssue,
                 ClientId = result.ClientId,
                 EmployeeId = result.EmployeeId,
-                Employee = (from results in result.Employee
-                         select
-                         new EmployeeDto
-                         {
-                             Id = results.Id,
-                             FullName = results.FullName,
-                             BirthDate = results.BirthDate,
-                             Position = results.Position,
-                             Salary = results.Salary,
-                             AddressId = results.AddressId,
-                             Phone = results.Phone,
-                         }).ToList(),
-                Client = (from results in result.Client
-                           select
-                           new ClientDto
-                           {
-                               Id = results.Id,
-                               FullName = results.FullName,
-                               BirthDate = results.BirthDate,
-                               AddressId = results.AddressId,
-                               Phone = results.Phone,
-                           }).ToList(),
             };
         }
 

@@ -9,11 +9,9 @@ namespace Library.BLL.Services
     public class EmployeeServices : IEmployeeServices
     {
         private readonly IEmployeeRepository _repository;
-        private readonly IOrderRepository _orderRepository;
-        public EmployeeServices(IEmployeeRepository repository, IOrderRepository orderRepository)
+        public EmployeeServices(IEmployeeRepository repository)
         {
             _repository = repository;
-            _orderRepository = orderRepository;
         }
         public async Task<EmployeeDto> CreateAsync(EmployeeDto entity)
         {

@@ -3,26 +3,26 @@ using Library.Domain.DataTransferObject;
 using Library.BLL.interfaces;
 using System;
 using Microsoft.AspNetCore.Http.HttpResults;
-using Library.Domain.Entities;
 
 namespace library.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeeServices : ControllerBase
+    public class BookController : ControllerBase
     {
-        private readonly IEmployeeServices _employeeServices;
-        public EmployeeController(IEmployeeServices employeeServices)
+        private readonly IBookServices _bookServices;
+
+        public BookController(IBookServices bookServices)
         {
-            _employeeServices = employeeServices;
+            _bookServices = bookServices;
         }
     }
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<EmployeeDto>>> Get()
+    public async Task<ActionResult<IEnumerable<BookDto>>> Get()
     {
         try
         {
-            return Ok(await _employeeServices.GetAsync());
+            return Ok(await _bookServices.GetAsync());
         }
         catch (Exception ex)
         {
@@ -31,11 +31,11 @@ namespace library.Controllers
     }
 
     [HttpGet("{Id}")]
-    public async Task<ActionResult<IEnumerable<EmployeeDto>>> Get(int Id)
+    public async Task<ActionResult<IEnumerable<BookDto>>> Get(int Id)
     {
         try
         {
-            return Ok(await _employeeServices.GetAsync(Id));
+            return Ok(await _bookServices.GetAsync(Id));
         }
         catch (Exception ex)
         {
@@ -44,11 +44,11 @@ namespace library.Controllers
     }
 
     [HttpPost]
-    public async Task<ActionResult<EmployeeDto>> Post([FromBody])
+    public async Task<ActionResult<BookDto>> Post([FromBody])
     {
         try
         {
-            return Ok(await _employeeServices.CreateAsync(value));
+            return Ok(await _bookServices.CreateAsync(value));
         }
         catch (Exception ex)
         {
@@ -56,14 +56,14 @@ namespace library.Controllers
         }
     }
     [HttpPut("{Id}")]
-    public async Task<ActionResult<EmployeeDto>> Put(int Id, [FromBody] EmployeeDto value)
+    public async Task<ActionResult<BookDto>> Put(int Id, [FromBody] BookDto value)
     {
         if (Id != value.Id)
             return BadRequest();
 
         try
         {
-            return Ok(await _employeeServices.UpdateAsync(value));
+            return Ok(await _bookServices.UpdateAsync(value));
         }
         catch (Exception ex)
         {
@@ -71,11 +71,11 @@ namespace library.Controllers
         }
     }
     [HttpDelete("{Id}")]
-    public async Task<ActionResult<EmployeeDto>> DeleteAsync(int Id)
+    public async Task<ActionResult<BookDto>> DeleteAsync(int Id)
     {
         try
         {
-            return Ok(await _employeeServices.DeleteAsync(Id));
+            return Ok(await _bookServices.DeleteAsync(Id));
         }
         catch (Exception ex)
         {
@@ -84,15 +84,16 @@ namespace library.Controllers
     }
 
     [HttpPost("AddTo")]
-    public async Task<ActionResult<EmployeeDto>> AddTo(AuthorToAddress value)
+    public async Task<ActionResult<BookDto>> AddTo(AuthorToAddress value)
     {
         try
         {
-            return Ok(await _employeeServices.UpdateAsync(value));
+            return Ok(await _bookServices.UpdateAsync(value));
         }
         catch (Exception ex)
         {
             return BadRequest();
         }
     }
+}
 }

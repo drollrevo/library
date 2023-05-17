@@ -7,7 +7,7 @@ namespace library.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderServices : ControllerBase
+    public class OrderController : ControllerBase
     {
         private readonly IOrderServices _orderServices;
         public OrderController(IOrderServices orderServices)

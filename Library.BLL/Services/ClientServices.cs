@@ -9,13 +9,10 @@ namespace Library.BLL.Services
     public class ClientServices : IClientServices
     {
         private readonly IClientRepository _repository;
-        private readonly IOrderRepository _orderRepository;
-        private readonly IAddressRepository _addressRepository;
-        public ClientServices(IClientRepository repository, IOrderRepository orderRepository, IAddressRepository addressRepository)
+
+        public ClientServices(IClientRepository repository)
         {
             _repository = repository;
-            _orderRepository = orderRepository;
-            _addressRepository = addressRepository;
         }
 
         public async Task<ClientDto> CreateAsync(ClientDto entity)
