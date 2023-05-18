@@ -17,77 +17,52 @@ namespace library.Controllers
         {
             _clientServices = clientServices;
         }
-    }
 
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<ClientDto>>> Get() 
-    {
-        try
-        {
-            return Ok(await _clientServices.GetAsync());
-        }
-        catch (Exception ex) 
-        {
-            return BadRequestObjectResult();
-        }
-    }
 
-    [HttpGet("{Id}")]
-    public async Task<ActionResult<IEnumerable<ClientDto>>> Get(int Id)
-    {
-        try
-        {
-            return Ok(await _clientServices.GetAsync(Id));
-        }
-        catch (Exeption ex)
-        {
-            return BadRequestObjectResult();
-        }
-    }
-
-    [HttpPost]
-    public async Task<ActionResult<ClientDto>> Post([FromBody])
-    {
-        try
-        {
-            return Ok(await _clientServices.CreateAsync(value));
-        }
-        catch (Exception ex)
-        {
-            return BadRequest();
-        }
-    }
-    [HttpPut("{Id}")]
-    public async Task<ActionResult<ClientDto>> Put(int Id, [FromBody] ClientDto value)
-    {
-        if (Id != value.Id)
-            return BadRequest();
-
-        try
-        {
-            return Ok(await _clientServices.UpdateAsync(value));
-        }
-        catch (Exception ex)
-        {
-            return BadRequest();
-        }
-    }
-        [HttpDelete("{Id}")]
-        public async Task<ActionResult<ClientDto>> DeleteAsync(int Id)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ClientDto>>> Get()
         {
             try
             {
-                return Ok(await _clientServices.DeleteAsync(Id));
+                return Ok(await _clientServices.GetAsync());
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return BadRequest();
             }
         }
 
-        [HttpPost("AddTo")]
-        public async Task<ActionResult<ClientDto>> AddTo(AddressToClient value)
+        [HttpGet("{Id}")]
+        public async Task<ActionResult<IEnumerable<ClientDto>>> Get(int Id)
         {
+            try
+            {
+                return Ok(await _clientServices.GetAsync(Id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<ClientDto>> Post([FromBody] ClientDto value)
+        {
+            try
+            {
+                return Ok(await _clientServices.CreateAsync(value));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+        [HttpPut("{Id}")]
+        public async Task<ActionResult<ClientDto>> Put(int Id, [FromBody] ClientDto value)
+        {
+            if (Id != value.Id)
+                return BadRequest();
+
             try
             {
                 return Ok(await _clientServices.UpdateAsync(value));
@@ -97,5 +72,17 @@ namespace library.Controllers
                 return BadRequest();
             }
         }
-}
+        [HttpDelete("{Id}")]
+        public async Task<ActionResult<ClientDto>> DeleteAsync(int Id)
+        {
+            try
+            {
+                return Ok(await _clientServices.DeleteAsync(Id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
 
+    } }

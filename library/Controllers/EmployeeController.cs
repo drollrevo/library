@@ -16,83 +16,71 @@ namespace library.Controllers
         {
             _employeeServices = employeeServices;
         }
-    }
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<EmployeeDto>>> Get()
-    {
-        try
-        {
-            return Ok(await _employeeServices.GetAsync());
-        }
-        catch (Exception ex)
-        {
-            return BadRequestObjectResult();
-        }
-    }
 
-    [HttpGet("{Id}")]
-    public async Task<ActionResult<IEnumerable<EmployeeDto>>> Get(int Id)
-    {
-        try
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<EmployeeDto>>> Get()
         {
-            return Ok(await _employeeServices.GetAsync(Id));
+            try
+            {
+                return Ok(await _employeeServices.GetAsync());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
-        catch (Exception ex)
-        {
-            return BadRequestObjectResult();
-        }
-    }
 
-    [HttpPost]
-    public async Task<ActionResult<EmployeeDto>> Post([FromBody])
-    {
-        try
+        [HttpGet("{Id}")]
+        public async Task<ActionResult<IEnumerable<EmployeeDto>>> Get(int Id)
         {
-            return Ok(await _employeeServices.CreateAsync(value));
+            try
+            {
+                return Ok(await _employeeServices.GetAsync(Id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
-        catch (Exception ex)
-        {
-            return BadRequest();
-        }
-    }
-    [HttpPut("{Id}")]
-    public async Task<ActionResult<EmployeeDto>> Put(int Id, [FromBody] EmployeeDto value)
-    {
-        if (Id != value.Id)
-            return BadRequest();
 
-        try
+        [HttpPost]
+        public async Task<ActionResult<EmployeeDto>> Post([FromBody] EmployeeDto value)
         {
-            return Ok(await _employeeServices.UpdateAsync(value));
+            try
+            {
+                return Ok(await _employeeServices.CreateAsync(value));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
-        catch (Exception ex)
+        [HttpPut("{Id}")]
+        public async Task<ActionResult<EmployeeDto>> Put(int Id, [FromBody] EmployeeDto value)
         {
-            return BadRequest();
-        }
-    }
-    [HttpDelete("{Id}")]
-    public async Task<ActionResult<EmployeeDto>> DeleteAsync(int Id)
-    {
-        try
-        {
-            return Ok(await _employeeServices.DeleteAsync(Id));
-        }
-        catch (Exception ex)
-        {
-            return BadRequest();
-        }
-    }
+            if (Id != value.Id)
+                return BadRequest();
 
-    [HttpPost("AddTo")]
-    public async Task<ActionResult<EmployeeDto>> AddTo(AuthorToAddress value)
-    {
-        try
-        {
-            return Ok(await _employeeServices.UpdateAsync(value));
+            try
+            {
+                return Ok(await _employeeServices.UpdateAsync(value));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
-        catch (Exception ex)
+        [HttpDelete("{Id}")]
+        public async Task<ActionResult<EmployeeDto>> DeleteAsync(int Id)
         {
-            return BadRequest();
+            try
+            {
+                return Ok(await _employeeServices.DeleteAsync(Id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
-    }
-}
+      
+    } }

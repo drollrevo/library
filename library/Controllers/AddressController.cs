@@ -15,9 +15,8 @@ namespace library.Controllers
         {
             _addressServices = addressServices;
         }
-    }
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<AddressDtoList>>> Get()
+    public async Task<ActionResult<IEnumerable<AddressDto>>> Get()
     {
         try
         {
@@ -25,7 +24,7 @@ namespace library.Controllers
         }
         catch (Exception ex)
         {
-            return BadRequestObjectResult();
+            return BadRequest();
         }
     }
 
@@ -38,12 +37,12 @@ namespace library.Controllers
         }
         catch (Exception ex)
         {
-            return BadRequestObjectResult();
+            return BadRequest();
         }
     }
 
     [HttpPost]
-    public async Task<ActionResult<AddressDto>> Post([FromBody])
+    public async Task<ActionResult<AddressDto>> Post([FromBody] AddressDto value)
     {
         try
         {
@@ -55,7 +54,7 @@ namespace library.Controllers
         }
     }
     [HttpPut("{Id}")]
-    public async Task<ActionResult<AddressDto>> Put(int Id, [FromBody] AddressDtoList value)
+    public async Task<ActionResult<AddressDto>> Put(int Id, [FromBody] AddressDto value)
     {
         if (Id != value.Id)
             return BadRequest();
@@ -83,17 +82,6 @@ namespace library.Controllers
             }
         }
 
-        [HttpPost("AddTo")]
-        public async Task<ActionResult<AddressDto>> AddTo(AddressToClient value)
-        {
-            try
-            {
-                return Ok(await _addressServices.UpdateAsync(value));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest();
-            }
-        }
-
+       
+}
 }

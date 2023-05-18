@@ -14,83 +14,71 @@ namespace library.Controllers
         {
             _orderServices = orderServices;
         }
-    }
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<OrderDto>>> Get()
-    {
-        try
-        {
-            return Ok(await _orderServices.GetAsync());
-        }
-        catch (Exception ex)
-        {
-            return BadRequestObjectResult();
-        }
-    }
 
-    [HttpGet("{Id}")]
-    public async Task<ActionResult<IEnumerable<OrderDto>>> Get(int Id)
-    {
-        try
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> Get()
         {
-            return Ok(await _orderServices.GetAsync(Id));
+            try
+            {
+                return Ok(await _orderServices.GetAsync());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
-        catch (Exception ex)
-        {
-            return BadRequestObjectResult();
-        }
-    }
 
-    [HttpPost]
-    public async Task<ActionResult<OrderDto>> Post([FromBody])
-    {
-        try
+        [HttpGet("{Id}")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> Get(int Id)
         {
-            return Ok(await _orderServices.CreateAsync(value));
+            try
+            {
+                return Ok(await _orderServices.GetAsync(Id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
-        catch (Exception ex)
-        {
-            return BadRequest();
-        }
-    }
-    [HttpPut("{Id}")]
-    public async Task<ActionResult<OrderDto>> Put(int Id, [FromBody] OrderDto value)
-    {
-        if (Id != value.Id)
-            return BadRequest();
 
-        try
+        [HttpPost]
+        public async Task<ActionResult<OrderDto>> Post([FromBody] OrderDto value)
         {
-            return Ok(await _orderServices.UpdateAsync(value));
+            try
+            {
+                return Ok(await _orderServices.CreateAsync(value));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
-        catch (Exception ex)
+        [HttpPut("{Id}")]
+        public async Task<ActionResult<OrderDto>> Put(int Id, [FromBody] OrderDto value)
         {
-            return BadRequest();
-        }
-    }
-    [HttpDelete("{Id}")]
-    public async Task<ActionResult<OrderDto>> DeleteAsync(int Id)
-    {
-        try
-        {
-            return Ok(await _orderServices.DeleteAsync(Id));
-        }
-        catch (Exception ex)
-        {
-            return BadRequest();
-        }
-    }
+            if (Id != value.Id)
+                return BadRequest();
 
-    [HttpPost("AddTo")]
-    public async Task<ActionResult<OrderDto>> AddTo(AuthorToAddress value)
-    {
-        try
-        {
-            return Ok(await _orderServices.UpdateAsync(value));
+            try
+            {
+                return Ok(await _orderServices.UpdateAsync(value));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
-        catch (Exception ex)
+        [HttpDelete("{Id}")]
+        public async Task<ActionResult<OrderDto>> DeleteAsync(int Id)
         {
-            return BadRequest();
+            try
+            {
+                return Ok(await _orderServices.DeleteAsync(Id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
-    }
-}
+
+    } }

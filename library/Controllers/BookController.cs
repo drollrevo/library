@@ -16,7 +16,7 @@ namespace library.Controllers
         {
             _bookServices = bookServices;
         }
-    }
+    
     [HttpGet]
     public async Task<ActionResult<IEnumerable<BookDto>>> Get()
     {
@@ -26,7 +26,7 @@ namespace library.Controllers
         }
         catch (Exception ex)
         {
-            return BadRequestObjectResult();
+            return BadRequest();
         }
     }
 
@@ -39,12 +39,12 @@ namespace library.Controllers
         }
         catch (Exception ex)
         {
-            return BadRequestObjectResult();
+            return BadRequest();
         }
     }
 
     [HttpPost]
-    public async Task<ActionResult<BookDto>> Post([FromBody])
+    public async Task<ActionResult<BookDto>> Post([FromBody] BookDto value)
     {
         try
         {
@@ -83,17 +83,5 @@ namespace library.Controllers
         }
     }
 
-    [HttpPost("AddTo")]
-    public async Task<ActionResult<BookDto>> AddTo(AuthorToAddress value)
-    {
-        try
-        {
-            return Ok(await _bookServices.UpdateAsync(value));
-        }
-        catch (Exception ex)
-        {
-            return BadRequest();
-        }
-    }
 }
 }

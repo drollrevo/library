@@ -17,60 +17,60 @@ namespace library.Controllers
         {
             _authorServices = authorServices;
         }
-    }
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<AuthorDto>>> Get()
-    {
-        try
-        {
-            return Ok(await _authorServices.GetAsync());
-        }
-        catch (Exception ex)
-        {
-            return BadRequestObjectResult();
-        }
-    }
 
-    [HttpGet("{Id}")]
-    public async Task<ActionResult<IEnumerable<AuthorDto>>> Get(int Id)
-    {
-        try
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<AuthorDto>>> Get()
         {
-            return Ok(await _authorServices.GetAsync(Id));
+            try
+            {
+                return Ok(await _authorServices.GetAsync());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
-        catch (Exception ex)
-        {
-            return BadRequestObjectResult();
-        }
-    }
 
-    [HttpPost]
-    public async Task<ActionResult<AuthorDto>> Post([FromBody])
-    {
-        try
+        [HttpGet("{Id}")]
+        public async Task<ActionResult<IEnumerable<AuthorDto>>> Get(int Id)
         {
-            return Ok(await _authorServices.CreateAsync(value));
+            try
+            {
+                return Ok(await _authorServices.GetAsync(Id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
-        catch (Exception ex)
-        {
-            return BadRequest();
-        }
-    }
-    [HttpPut("{Id}")]
-    public async Task<ActionResult<ClientDto>> Put(int Id, [FromBody] AuthorDtoList value)
-    {
-        if (Id != value.Id)
-            return BadRequest();
 
-        try
+        [HttpPost]
+        public async Task<ActionResult<AuthorDto>> Post([FromBody] AuthorDto value)
         {
-            return Ok(await _authorServices.UpdateAsync(value));
+            try
+            {
+                return Ok(await _authorServices.CreateAsync(value));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
-        catch (Exception ex)
+        [HttpPut("{Id}")]
+        public async Task<ActionResult<ClientDto>> Put(int Id, [FromBody] AuthorDto value)
         {
-            return BadRequest();
+            if (Id != value.Id)
+                return BadRequest();
+
+            try
+            {
+                return Ok(await _authorServices.UpdateAsync(value));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
-    }
         [HttpDelete("{Id}")]
         public async Task<ActionResult<AuthorDto>> DeleteAsync(int Id)
         {
@@ -84,18 +84,6 @@ namespace library.Controllers
             }
         }
 
-        [HttpPost("AddTo")]
-        public async Task<ActionResult<AuthorDto>> AddTo(AuthorToAddress value)
-        {
-            try
-            {
-                return Ok(await _authorServices.UpdateAsync(value));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest();
-            }
-        }
-
-    
+        
+    }
 }
